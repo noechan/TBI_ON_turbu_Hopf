@@ -118,21 +118,6 @@ for sub=1:NSUB
     gKoP(sub)=nanmean(abs(sum(complex(cos(Phases(:,:)),sin(Phases(:,:))),1))/NPARCELLS);    % Global Kuramoto parameter (synchronization) for all nodes
     Meta(sub) = nanstd(abs(sum(complex(cos(Phases(:,:)),sin(Phases(:,:))),1))/NPARCELLS);   % Global metastability for all nodes
 
-    % Calculate amplitude turbulence, Kuramoto global order parameter and
-    % metastability for the 7 RSNs
-    for ii=1:7
-        indx_rsn=find(labels(:,1)==ii);
-        NPARCELLS=size(indx_rsn,1);
-        clear entropy
-        for ilam=1:NLAMBDA
-            entropy(ilam,:,:) = entropy1(ilam,indx_rsn,:); %Kuramoto module
-            TurbulenceRSN_sub(ilam,sub,ii)=nanstd(squeeze(entropy(ilam,:))); % Amplitude turbulence for each network (based on Kuramoto module for all 1000 nodes but STD from the nodes)
-        end
-        gKoPRSN(sub,ii)=nanmean(abs(sum(complex(cos(Phases(indx_rsn,:)),sin(Phases(indx_rsn,:))),1))/NPARCELLS); %global Kuramoto parameter (synchronization) for each network
-        MetaRSN(sub,ii) = nanstd(abs(sum(complex(cos(Phases(indx_rsn,:)),sin(Phases(indx_rsn,:))),1))/NPARCELLS); %global metastability for each network
-
-    end
-
     % Calculate info cascade flow and info cascade 
     for ilam=1:NLAMBDA-1
         [cc pp]=corr(squeeze(entropy1(ilam+1,:,2:end))',squeeze(entropy1(ilam,:,1:end-1))');
